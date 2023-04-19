@@ -1,5 +1,5 @@
 # SQLD 공부
-<img alt="database" src="./image/sqld.png" width="40%"/>
+<img alt="database" src="./image/sqld.png" width="30%"/>
 
 ![](https://img.shields.io/badge/ORACLE-F80000?style=flat&logo=Oracle&logoColor=FFFFFF)
 ![](https://img.shields.io/badge/Visual_Studio_Code-007ACC?style=flat&logo=VisualStudioCode&logoColor=FFFFFF)
