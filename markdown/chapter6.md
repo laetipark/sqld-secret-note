@@ -1,2 +1,32 @@
 ### SQL 활용
-##### 표준 조인
+#### 표준 조인
+- 일반집합연산자
+  - UNION
+    - 합집합을 제공하는 연산자
+    - 교집합의 중복을 제거하는 연산을 수행해 정렬작업으로 인한 시스템에 부하가 발생할 수 있음
+    - UNION ALL은 중복을 포함해 보여줌(정렬작업 X)
+  - INTERSECTION
+    - 교집합을 제공하는 연산자
+  - DIFFERENCE(EXCEPT, MINUS)
+    - 차집합을 제공하는 연산자로 첫 번째 집합에서 두 번째 집합의 공통 집합을 제외
+    - 오라클에서는 MINUS로 SQL문 수행
+  - PRODUCT(CROSS JOIN)
+    - 곱집합을 제공하며, JOIN 조건이 없는 경우 생길 수 있는 모든 데이터 조합 연산자
+    - 양쪽 집합의 M*N의 데이터 조합이 발생하며, CARTESIAN PRODUCT라고도 함
+- 순수관계연산자
+  - SELECT
+    - 행들에 대한 부분집합으로, WHERE절 기능으로 구현
+  - PROJECT
+    - 열들에 대한 부분집합으로, SELECT절의 열 선택으로 구현
+  - NATURAL JOIN
+    - WHERE절에 조인 조건을 기재해 구현
+    - NATURAL JOIN, INNER JOIN, LEFT OUTER JOIN, RIGHT OUTER JOIN, USING 조건절, ON 조건절 등이 있음
+  - DIVIDE 연산
+    - 나눗셈과 비슷한 개념의 연산자로, SQL문으로는 없음
+- 조인 형태
+  - INNER JOIN : JOIN 조건에서 동일한 값이 있는 행만 반환
+  - NATURAL JOIN : 두 테이블 간 동일한 이름을 갖는 열들에 대해 INNER JOIN 수행
+  - USING 조건절 : 같은 이름을 가진 열들 중 원하는 열에 대한 선택적 INNER JOIN 수행
+  - ON 조건절 : JOIN 서술부와 비 JOIN 서술부를 분리해 이해가 쉽고 열 이름이 달라도 JOIN 조건을 사용할 수 있음
+  - CROSS JOIN : 일반집합연산자의 PRODUCT 개념으로, 테이블 간 JOIN 조건이 없는 경우 생길 수 있는 모든 데이터의 조합
+  - OUTER JOIN : JOIN 조건에서 동일한 값이 없는 행도 결과 집합에 포함 시킬 때 사용
