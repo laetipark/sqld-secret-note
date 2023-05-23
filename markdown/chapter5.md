@@ -3,10 +3,65 @@
 - 특정 데이터들의 집합에서 필요한 데이터를 꺼내 조회, 새로운 데이터를 입력/수정/삭제하는 행위를 통해 데이터베이스와 대화
 
 ##### SQL문 종류
-- 데이터 정의어(DDL, Data Definition Language) : CREATE, ALTER, DROP, RENAME
-- 데이터 조작어(DML, Data Manipulation Language) : SELECT, INSERT, UPDATE, DELETE
-- 데이터 제어어(DCL, Data Control Language) : GRANT, REVOKE
-- 트랜잭션 제어어(TCL, Transaction Control Language) : COMMIT, ROLLBACK
+- 데이터 정의어(DDL, Data Definition Language)
+  ```sql
+  -- CREATE TABLE
+  CREATE TABLE 테이블명 ();  
+  ```
+  ```sql
+  -- ALTER ADD : TABLE 열 추가
+  ALTER TABLE 테이블명 ADD (열 이름);
+  -- ALTER DROP : TABLE 열 제거
+  ALTER TABLE 테이블명 DROP COLUMN 열 이름;
+  -- ALTER MODIFY : TABLE 열 수정
+  ALTER TABLE 테이블명 MODIFY (
+      열 이름 변경
+  );
+  -- ALTER RENAME : TABLE 열 이름 변경
+  ALTER TABLE 테이블명
+      RENAME 열 이름 TO 변경 열 이름;
+  -- ALTER DROP CONSTRAINT : 외래키 제거
+  ALTER TABLE 테이블명 DROP CONSTRAINT 외래키명;
+  -- ALTER ADD CONSTRAINT : 외래키 생성
+  ALTER TABLE 테이블명 ADD CONSTRAINT 외래키명 FOREIGN KEY (적용 열 이름) REFERENCES 테이블명(참고 열 이름);
+  -- RENAME : 테이블명 변경
+  RENAME 테이블명 TO 바꿀 테이블명;
+  -- TRUNCATE : 테이블에 저장된 데이터 제거
+  TRUNCATE TABLE 테이블명;
+  -- DROP : 테이블 제거
+  DROP TABLE 테이블명;
+  ```
+- 데이터 조작어(DML, Data Manipulation Language)
+  ```sql
+  -- SELECT문
+  SELECT 열 이름1, 열 이름 2... FROM 테이블명;
+  -- DISTINCT : SELECT 중복 행 제거
+  SELECT DISTINCT 열 이름1, 열 이름 2... FROM 테이블명;
+  -- SELECT * : FROM절 내 테이블 모든 열 출력
+  SELECT * FROM 테이블명;
+  -- ALIAS : 대체 이름 지정
+  SELECT 열 이름1 AS 대체 열 이름 FROM 테이블명;
+  -- || : 합성 연산자
+  SELECT 열 이름1 || '-' || 열 이름2 || '(' || 열 이름3 || ')' AS "열 이름1-열 이름2(열 이름3)" FROM 테이블명;
+  -- DUAL 테이블 : 단 1건의 데이터가 저장되어 있고 DUMMY열 1개 존재
+  SELECT ((1 + 1) * 3) / 6 AS "연산결과 값" FROM DUAL;
+  ```
+- 데이터 제어어(DCL, Data Control Language)
+- 트랜잭션 제어어(TCL, Transaction Control Language)
+  ```sql
+  -- COMMIT : 변경사 DB 최종 적용
+  트랜잭션;
+  COMMIT;
+  -- ROLLBACK : 변경사항 취소
+  트랜잭션;
+  ROLLBACK;
+  -- SAVEPOINT : 변경사항 저장
+  SAVEPOINT SVPT1; -- SAVEPOINT 1
+  트랜잭션1;
+  SAVEPOINT SVPT2; -- SAVEPOINT 2
+  트랜잭션2;
+  ROLLBACK TO SVPT2; -- SAVEPOINT 1까지 변경사항으로 되돌림
+  ```
 
 ##### 테이블
 - 데이터를 저장하는 객체, 열과 행의 2차원 구조로 나타내는 RDB의 기본 단위
@@ -33,11 +88,6 @@
   - 테이블 변경 : ALTER TABLE 테이블명 (ADD/DROP/MODIFY) 열이름
   - 테이블 내부 열 제거 : TRUNCATE문 TABLE 테이블 열 (ROLLBACK문을 이용한 복구 불가능) / DROP TABLE 테이블 열
 - DML : 데이터를 입력/수정/삭제/조회하는 역할
-  - INSERT INTO ~
-  - UPDATE ~ SET ~
-  - DELETE FROM ~
-  - SELECT ~ FROM ~
-    - DISTINCT : 중복행 제거
 - TCL : 입력, 수정, 삭제 후 커밋 혹은 롤백하는 데 사용하는 SQL문
   - 트랜잭션 : DB의 논리적 연산 단위로 1개의 트랜잭션에 1개 이상 SQL문이 포함
     - 원자성(Atomicity) : 트랜잭션에서 정의된 연산들은 모두 성공적으로 끝나거나 모두 실패해야함(ALL OR NOTHING)
@@ -109,6 +159,10 @@
   - TO_NUMBER, TO_CHAR, TO_DATE, CONVERT 
 - NULL 관련 함수 : NULL을 처리하기 위한 함수
   - NVL, NULLIF, COALESCE
+      ```sql
+      -- NVL : 값이 NULL인 경우 지정값을 출력, 아니면 원래 값을 그대로 출력
+      SELECT NVL(값, 대체값) FROM 테이블명
+      ```
 - CASE 표현 : 함수 내 조건문
   - CASE WHEN 조건 THEN (값 혹은 SQL문) ELSE (값 혹은 SQL문) END
   - DECODE(조건1, 값1, 조건2, 값2, 디폴트 값)
