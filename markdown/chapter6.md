@@ -329,3 +329,72 @@
     - CREATE TABLE
     - CREATE INDEXTYPE
 
+### 절차형 SQL
+- 절차지향적인 프로그램이 작성 가능하도록 제공되는 SQL
+- SQL문의 연속적인 실행이나 조건에 따른 분기 처리를 실행하는 모듈을 생성할 수 있음
+- 사용자 정의 함수, 프로시저, 트리거 등을 PL/SQL(Procedural Language for SQL)이라 부름
+#### PL/SQL
+- Block 구조로 되어있고, Block 내 SQL, IF문, LOOP문 등이 존재함
+- Block 구조로 되어 있어 각 기능별 모듈화가 가능하고, 변수/상수 선언 및 IF/LOOP문 등 이용이 가능하여 다양한 모듈 개발이 가능
+- DBMS 에러나 사용자 에러 정의를 할 수 있음
+- 어떠한 오라클 DBMS 서버로도 이식이 가능
+  ```sql
+  CREATE OR REPLACE PROCEDURE 프로시저명
+  (입력값)
+
+  -- 선언부
+  IS
+  변수 선언
+  
+  CURSOR 커서 선언
+
+  -- 실행부
+  BEGIN 실행부
+  END 프로시저명;
+
+  -- 예외처리부
+  ```
+- PL/SQL Block 구조
+  - DECLARE(선언부) : 필수 항목으로 BEGIN~END에서 사용할 변수나 인수에 대한 정의 및 데이터형을 선언
+  - BEGIN(실행부) : 필수 항목으로 개발자가 처리하고자 하는 SQL문과 필요한 로직(비교문, 제어문 등)을 정의
+  - EXCEPTION(예외 처리부) : 선택 항목으로 BEGIN~END에서 실행되는 SQL문에 발생한 에러를 처리
+  - END : 필수 항목으로 BEGIN부터 시작한 SQL문과 필요한 로직의 종료를 선언
+  - 프로시저 호출
+    ```sql
+    EXECUTE 프로시저명('입력값');
+    ```
+
+- 사용자 정의 함수 : 프로시저처럼 SQL문을 IF, LOOP 등의 로직과 함꼐 데이터베이스에 저장해놓은 명령문의 집합
+  ```sql
+  CREATE OR REPLACE FUNCTION 함수명
+  (입력값)
+  RETURN 리턴타입 IS 리변수;
+
+  BEGIN
+    실행부
+
+    RETURN 리턴변수; 
+    END;
+  ```
+
+- 트리거 : 특정한 테이블에 INSERT, UPDATE, DELETE를 수행할 때 자동으로 동작하도록 작성된 프로그램
+  ```sql
+  CREATE OR REPLACE TRIGGER 트리거명
+  BEFORE/AFTER INSERT/UPDATE/DELETE
+  ON 테이블명
+  FOR EACH ROW -- 각가의 행을 입력 후
+  DECLARE
+  
+  -- 변수 선언
+  
+  BEGIN -- 트리거 시작
+  END
+  ```
+
+- 프로시저와 트리거 차이점 : 프로시저는 내부에서 커밋 혹은 롤백을 수행하지만, 트리거는 발생된 원인이 된 SQL문이 커밋 혹은 롤백되는지에 따라 데이터베이스 최종 적용이 결정됨
+
+  |프로시저|트리거|
+  |:-|:-|
+  |CREATE PROCEDURE 문법 사용|CREATE TRIGGER 문법 사용|
+  |EXECUTE/EXEC 명령어로 실행|생성 후 자동으로 실행|
+  |내부에서 COMMIT, ROLLBACK 실행 가능|내부에서 COMMIT, ROLLBACK 실행안 됨|
